@@ -1,0 +1,5 @@
+C:/Users/Joefi/source/repos/RosettaStone/out/build/x64-debug/CMakeFiles/edit_cache.dir
+C:/Users/Joefi/source/repos/RosettaStone/out/build/x64-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Joefi/source/repos/RosettaStone/out/build/x64-debug/RosettaStone/CMakeFiles/RosettaStone.dir
+C:/Users/Joefi/source/repos/RosettaStone/out/build/x64-debug/RosettaStone/CMakeFiles/edit_cache.dir
+C:/Users/Joefi/source/repos/RosettaStone/out/build/x64-debug/RosettaStone/CMakeFiles/rebuild_cache.dir
