@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Joefi/source/repos/RosettaStone/build/cmake_install.cmake",
+		"C:/Users/Joefi/source/repos/RosettaStone/build/RosettaStone/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

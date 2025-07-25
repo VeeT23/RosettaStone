@@ -1,0 +1,3 @@
+C:/Users/Joefi/source/repos/RosettaStone/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Joefi/source/repos/RosettaStone/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/Joefi/source/repos/RosettaStone/build/RosettaStone/CMakeFiles/RosettaStone.dir

@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <iostream>
+#include <array>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -9,3 +10,4 @@
 #include <filesystem>
 #include <fstream>
 #include <unordered_map>
+#include <stdint.h>

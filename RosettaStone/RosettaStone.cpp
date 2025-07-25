@@ -3,14 +3,68 @@
 
 using namespace std;
 
-
 filesystem::path exe_path = filesystem::current_path();
 filesystem::path data_dir = exe_path / "Data";
 filesystem::path vocab_path = data_dir / "vocab.rsv";
+filesystem::path model_path = data_dir / "model_0.rsm";
 
 unordered_map<string, int> vocab_lookup;
 
-unordered_map<string, int> load_vocab() {
+vector<float> parse_neuron(const std::string& line) {
+    vector<float> weights;
+    stringstream ss(line);
+    string token;
+
+    while (getline(ss, token, ',')) {
+        if (!token.empty()) {
+            weights.push_back(std::stof(token));
+        }
+    }
+
+    return weights;
+}
+
+void load_model() {
+    cout << "Loading Model..." << endl;
+
+    
+
+    if (!filesystem::exists(model_path))
+        cerr << "ERR_FILE_DOES_NOT_EXIST: " << model_path << "\n";
+
+    std::ifstream f(model_path);
+
+    if (!f.is_open())
+        cerr << "ERR_OPENING_FILE: " << model_path << "\n";
+
+    string line;
+    int line_count = 0;
+    uint8_t hidden_layers;
+    uint8_t neuron_per_layer;
+    vector<float> weights;
+
+    getline(f, line);
+    hidden_layers = stoi(line);
+    getline(f, line);
+    neuron_per_layer = stoi(line);
+
+    while (getline(f, line)) {
+       weights = parse_neuron(line);
+
+    }
+    cout << "Weights:";
+    for (const float& t : weights)
+        cout << " \"" << t << "\"";
+    cout << endl;
+
+
+    
+
+
+    cout << hidden_layers << endl;
+}
+
+void load_vocab() {
 
     cout << "Loading Vocabulary..." << endl;
 
@@ -28,7 +82,6 @@ unordered_map<string, int> load_vocab() {
     string line;
 
     while (getline(f, line)) { //Reads each line of data
-
         string id; // path id
 
         while (line.size() && line[0] != ':') { // gets path id by reading each character up until ':'
@@ -45,7 +98,7 @@ unordered_map<string, int> load_vocab() {
 
     cout << "Loaded " << vocab.size() << " words" << endl;
 
-    return vocab;
+    vocab_lookup = vocab;
 }
 
 void add_vocab(const string& word) {
@@ -57,9 +110,9 @@ void add_vocab(const string& word) {
     if (!f.is_open())
         cerr << "ERR_OPENING_FILE: " << vocab_path << "\n";
     
-    f << word << ':' << vocab_lookup.size() - 1 << "\n";
+    f << word << ':' << vocab_lookup.size() + 1 << "\n";
 
-    cout << "Added: " << word << ":" << vocab_lookup.size() << endl;
+    cout << "Added: " << word << ":" << vocab_lookup.size() + 1 << endl;
 
     f.flush();
 
@@ -109,19 +162,17 @@ vector<int> tokenize(string input) { //converts user input into a integer set
 
     for (const string& word : words) {
 
-        if (vocab_lookup.find(word) == vocab_lookup.end()) {
+        if (!vocab_lookup.contains(word)) {
             cout << "Word: \"" << word << "\" is not found in the vocabulary, add it?" << endl;
             if (yes_no_prompt()) {
                 add_vocab(word);
-                
             }
             else {
+                tokens.push_back(0);
                 continue;
             }
-            
         }
-
-        tokens.push_back(vocab_lookup[word]);
+        tokens.push_back(vocab_lookup.at(word));
     }
 
     cout << "Tokens:";
@@ -134,21 +185,30 @@ vector<int> tokenize(string input) { //converts user input into a integer set
 
 int main()
 {
-    
-    
-    vocab_lookup = load_vocab();
+    load_vocab();
 
-    string user_input;
-    string output;
-    cout << "Enter user input: ";
-    getline(cin, user_input);
+    load_model();
 
-    
+    string user_input = "";
+    int output = 0;
 
-    vector<int> tokens = tokenize(user_input);
+    while (true)
+    {
+        cout << "==========================" << endl;
+        cout << "Enter user input: ";
+        getline(cin, user_input);
 
-    
+        vector<int> tokens = tokenize(user_input);
 
-    cout << "Output:  " << output << endl;
+        if (find(tokens.begin(), tokens.end(), 9) != tokens.end()) {
+            cout << "Has lights" << endl;
+        }
+
+
+
+        cout << endl;
+        cout << "Output:  " << output << endl;
+    }
 	return 0;
 }
+
